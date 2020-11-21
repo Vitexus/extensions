@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+ISDOC Accounting extension
+
+Vítězslav Dvořák <info@vitexsoftware.cz>
+(G) 2020 Vitex Software
+
+
+  Permission to use, copy, modify and distribute this schema and its
+  documentation for any purpose and without fee is hereby granted in
+  perpetuity, provided that the above copyright notice and this paragraph
+  appear in all copies. The copyright holders make no representation about the
+  suitability of the schema for any purpose. It is provided "as is" without
+  expressed or implied warranty.
+  
+  Neither the name of the SPIS, ICT UNIE, nor the name ISDOC may be used to 
+  endorse or promote products derived from this software without specific 
+  prior written permission.
+
+Usage
+-----
+
+1) Please add me as namespace into Invoice header
+
+<Invoice xmlns="http://isdoc.cz/namespace/2013"  xmlns:accounting="http://isdoc.cz/namespace/2020/extensions/accounting"  version="6.0.1">
+
+2) Then you can specify character of invoice item. Choose one of: common | catalog | accounting | text
+
+    <InvoiceLine>
+      <Extensions>
+        <accounting:InvoiceLineCharacter>text</accounting:InvoiceLineCharacter>
+      </Extensions>
+    </InvoiceLine>
+
+-->
+
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:import namespace="http://isdoc.cz/namespace/2013"
+               schemaLocation="../isdoc/isdoc-invoice-6.0.1.xsd"/>
+
+    <xs:import namespace="http://isdoc.cz/namespace/2020/extensions/accounting"
+               schemaLocation="accounting.xsd"/>
+
+    <xs:simpleType name="InvoiceLineCharacterType" final="restriction" >
+        <xs:annotation>
+            <xs:documentation xml:lang="cs">Povaha položky</xs:documentation>
+            <xs:documentation xml:lang="en">Character of Item</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="common" >
+                <xs:annotation>
+                    <xs:documentation xml:lang="cs">Položka s cenou a množstvím</xs:documentation>
+                    <xs:documentation xml:lang="en">Item with price and quantity</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="catalog" >
+                <xs:annotation>
+                    <xs:documentation xml:lang="cs">Položka z ceníku</xs:documentation>
+                    <xs:documentation xml:lang="en">Item from pricelist</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="accounting" >
+                <xs:annotation>
+                    <xs:documentation xml:lang="cs">Položka pro zaúčtování</xs:documentation>
+                    <xs:documentation xml:lang="en">Item for accounting</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+            <xs:enumeration value="text" >
+                <xs:annotation>
+                    <xs:documentation xml:lang="cs">Pouze textový řádek</xs:documentation>
+                    <xs:documentation xml:lang="en">Only text line</xs:documentation>
+                </xs:annotation>
+            </xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:element name="InvoiceLineCharacter" type="InvoiceLineCharacterType">
+        <xs:annotation>
+            <xs:documentation xml:lang="cs">Účtované množství</xs:documentation>
+            <xs:documentation xml:lang="en">Invoiced quantity</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+
+</xs:schema>
